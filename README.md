@@ -8,8 +8,15 @@ Asegúrate de tener las siguientes herramientas instaladas en tu sistema:
 
 - [Node.js](https://nodejs.org/): La versión recomendada es 14.15.0 o superior.
 - [Serverless Framework](https://www.serverless.com/): Puedes instalarlo globalmente con `npm install -g serverless`.
-- [Docker](https://www.docker.com/): Necesario para ejecutar DynamoDB localmente.
 - AWS CLI: Configura tu perfil de AWS con las credenciales necesarias para desplegar en AWS.
+
+Para ejecutar DynamoDB localmente, necesitas uno de los siguientes:
+
+- Java (either JRE or JDK) versión 11.x o más reciente. Puedes encontrar una versión de Java en [Adoptium](https://adoptium.net/).
+
+- Docker Engine y CLI instalados en tu sistema.
+
+Para obtener más información sobre cómo configurar y usar DynamoDB localmente, puedes consultar la documentación oficial del plugin [serverless-dynamodb-local](https://www.serverless.com/plugins/serverless-dynamodb-local)
 
 ## Configuración
 
@@ -42,7 +49,11 @@ Asegúrate de tener las siguientes herramientas instaladas en tu sistema:
 
 3. Configura tus credenciales de AWS en tu sistema local:
 
-    Si aún no has configurado tus credenciales de AWS, puedes hacerlo con el comando aws configure.
+    Si aún no has configurado tus credenciales de AWS, puedes hacerlo con el comando:
+
+    ```bash
+    aws configure
+    ```
 
 4. Configura tu archivo serverless.ts:
 

@@ -2,11 +2,13 @@ import type { AWS } from '@serverless/typescript';
 
 import { tableResources } from './src/resources/tableResources';
 import { createFilm, getFilmDataById } from '@functions/index';
+import { ServerlessOpenAPIDocumentation } from './serverless.doc';
 
 const serverlessConfiguration: AWS = {
   service: 'aws-lambda-node-test',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild', 'serverless-dynamodb', 'serverless-offline'],
+  plugins: ['serverless-esbuild', 'serverless-dynamodb', 'serverless-offline', 'serverless-openapi-documentation', 'serverless-aws-documentation'
+  ],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -64,8 +66,10 @@ const serverlessConfiguration: AWS = {
       migration: {
         dir: 'src/dynamodb/offline/migrations',
       },
-    }
-
+    },
+    // documentation: "$file(serverless.doc.ts)"
+    //call the  serverless.doc.ts to documentation
+    documentation: ServerlessOpenAPIDocumentation.api.info
   },
   resources: tableResources
 };

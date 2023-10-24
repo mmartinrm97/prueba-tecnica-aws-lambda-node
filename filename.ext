@@ -1,0 +1,33 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "A simple API to manage Star Wars films",
+    "version" : "2023-10-24T19:28:44Z",
+    "title" : "aws-lambda-node-test-dev",
+    "contact" : {
+      "name" : "Filip Skakun",
+      "email" : "test@gmail.com"
+    }
+  },
+  "host" : "mn0uv90xfd.execute-api.us-west-2.amazonaws.com",
+  "basePath" : "/dev",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/star-wars/films" : {
+      "post" : {
+        "responses" : { }
+      }
+    },
+    "/star-wars/films/{id}" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : { }
+      }
+    }
+  }
+}

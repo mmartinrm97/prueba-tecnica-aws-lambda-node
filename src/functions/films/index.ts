@@ -1,2 +1,2 @@
-export {createFilm} from './createFilm/index'
-export {getFilmDataById} from './findFilmById/index'
+export { createFilm } from './createFilm/index'
+export { getFilmDataById } from './findFilmById/index'

@@ -1,0 +1,83 @@
+Listado de rutas de carpetas para el volumen Martín
+El número de serie del volumen es 00000063 788B:367E
+D:\CURSOS\PRUEBAS-TECNICAS\AWS-LAMBDA-NODE-TEST\SRC
+├───api
+│       useApi.ts
+│       
+├───dynamodb
+│   │   docker-compose.yml
+│   │   Dockerfile
+│   │   useDynamoDB.ts
+│   │   
+│   └───offline
+│       └───migrations
+│               films.ts
+│               people.ts
+│               planets.ts
+│               species.ts
+│               starships.ts
+│               vehicles.ts
+│               
+├───functions
+│   │   index.ts
+│   │   
+│   ├───films
+│   │   │   index.ts
+│   │   │   
+│   │   ├───createFilm
+│   │   │       handler.ts
+│   │   │       index.ts
+│   │   │       
+│   │   └───findFilmById
+│   │           handler.ts
+│   │           index.ts
+│   │           
+│   ├───hello
+│   │       handler.ts
+│   │       index.ts
+│   │       mock.json
+│   │       schema.ts
+│   │       
+│   ├───people
+│   │       handler.ts
+│   │       index.ts
+│   │       
+│   ├───planets
+│   │       handler.ts
+│   │       index.ts
+│   │       
+│   ├───species
+│   │       handler.ts
+│   │       index.ts
+│   │       
+│   ├───starships
+│   │       handler.ts
+│   │       index.ts
+│   │       
+│   ├───swapi
+│   │       handler.ts
+│   │       index.ts
+│   │       
+│   └───vehicles
+│           handler.ts
+│           index.ts
+│           
+├───interfaces
+│       star-wars-es.ts
+│       star-wars.ts
+│       
+├───libs
+│       api-gateway.ts
+│       handler-resolver.ts
+│       lambda.ts
+│       
+├───resources
+│       tableResources.ts
+│       
+├───tests
+│       createFilm.test.ts
+│       
+└───utils
+        translations.ts
+        translationUtils.ts
+        

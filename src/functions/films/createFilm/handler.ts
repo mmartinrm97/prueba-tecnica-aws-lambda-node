@@ -13,7 +13,7 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) 
         const requestBody: FilmStarWarsES = JSON.parse(event.body);
         const errors: any = {};
 
-        // Validar que los campos requeridos estén presentes
+        // Validate required fields
         const requiredFields = ['titulo', 'episodio_id', 'apertura', 'director', 'productor', 'fecha_estreno'];
         for (const field of requiredFields) {
             if (!requestBody[field]) {
@@ -24,27 +24,33 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) 
             }
         }
 
-        // Validar que el episodio_id sea un número
-        if (typeof requestBody.episodio_id !== 'number') {
-            if (!errors?.episodio_id) {
-                errors.episodio_id = [];
+        //check if requestBody.episodio_id exists
+        if (requestBody.episodio_id) {
+            //check if requestBody.episodio_id is a number
+            if (isNaN(requestBody.episodio_id)) {
+                if (!errors?.episodio_id) {
+                    errors.episodio_id = [];
+                }
+                errors.episodio_id.push(`El campo 'episodio_id' debe ser un número.`);
             }
-            errors?.episodio_id.push(`El campo 'episodio_id' debe ser un número.`);
         }
 
-        //Validar que la fecha de estreno sea en formato yyyy-MM-dd
-        if (!isMatch(requestBody.fecha_estreno, 'yyyy-MM-dd')) {
-            if (!errors?.fecha_estreno) {
-                errors.fecha_estreno = [];
+        //First check if requestBody.fecha_estreno exists
+        if (requestBody.fecha_estreno) {
+            //check if requestBody.fecha_estreno is a valid date
+            if (!isMatch(requestBody.fecha_estreno, 'yyyy-MM-dd')) {
+                if (!errors?.fecha_estreno) {
+                    errors.fecha_estreno = [];
+                }
+                errors.fecha_estreno.push("El campo 'fecha_estreno' debe tener el formato 'yyyy-MM-dd'.");
             }
-            errors.fecha_estreno.push(`El campo 'fecha_estreno' debe tener el formato 'yyyy-MM-dd'.`);
         }
 
 
         if (Object.keys(errors).length > 0) {
-            // Si hay errores, retornarlos todos en la respuesta
+            // There are errors, return them to the client
             return formatJSONResponse({
-                statusCode: 422,
+                message: 'No se pudo crear la película.',
                 errors
             }, 422);
         }
@@ -52,7 +58,7 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) 
 
         const newResourceId = randomUUID()
         
-        // Genera las fechas de creación y edición
+        // Add created and edited dates
         const fechaCreacion = new Date().toISOString();
         const fechaEdicion = new Date().toISOString();
 
@@ -63,16 +69,12 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) 
 
         await dynamoDBClient.put(params).promise();
 
+
         return formatJSONResponse({
-            statusCode: 201,
-            result: params.Item,
+            message: 'Película creada exitosamente.',
+            data: params.Item,
         }, 201);
     } catch (error) {
-
-        
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: 'Hubo un error al crear el elemento.' }),
-        };
+        return formatJSONResponse({ error: 'Error de Servidor.' }, 500);
     }
 }

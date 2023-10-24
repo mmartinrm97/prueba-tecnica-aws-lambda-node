@@ -8,7 +8,7 @@ const config: Config = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-  testMatch: ['<rootDir>/tests/**/*.test.ts'], // Ajusta la ruta de tus pruebas
+  testMatch: ['<rootDir>/tests/**/*.test.ts'],
   moduleNameMapper: {
     '^@libs/(.*)$': '<rootDir>/libs/$1',
     '^@utils/(.*)$': '<rootDir>/utils/$1',

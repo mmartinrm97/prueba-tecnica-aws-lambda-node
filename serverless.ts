@@ -1,11 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
 import { tableResources } from './src/resources/tableResources';
-import { getPeopleDataById } from './src/functions/people/index';
-import { getSpecieDataById } from './src/functions/species/index';
-import { getStarshipsDataById } from './src/functions/starships/index';
-import { getVehiclesDataById } from './src/functions/vehicles/index';
-import { getPlanetDataById } from './src/functions/planets/index';
 import { createFilm, getFilmDataById } from '@functions/index';
 
 const serverlessConfiguration: AWS = {
@@ -14,7 +9,8 @@ const serverlessConfiguration: AWS = {
   plugins: ['serverless-esbuild', 'serverless-dynamodb', 'serverless-offline'],
   provider: {
     name: 'aws',
-    runtime: 'nodejs18.x',
+    runtime: 'nodejs14.x',
+    region: "us-west-2",
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -22,17 +18,24 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      // DYNAMODB_TABLE: '${self:service}-${opt:stage}'
+      DYNAMODB_TABLE: 'FilmsTable'
     },
+    iamRoleStatements: [
+      {
+        Effect: "Allow",
+        Action: [
+          "dynamodb:*",
+        ],
+        Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+        // Resource: "arn:aws:dynamodb:us-west-2:088266778728:table/FilmsTable"
+      }
+    ],
   },
   // import the function via paths
   functions: {
     getFilmDataById,
     createFilm,
-    getPeopleDataById,
-    getSpecieDataById,
-    getStarshipsDataById,
-    getVehiclesDataById,
-    getPlanetDataById
   },
   package: { individually: true },
   custom: {
@@ -41,7 +44,7 @@ const serverlessConfiguration: AWS = {
       minify: false,
       sourcemap: true,
       exclude: ['aws-sdk'],
-      target: 'node18',
+      target: 'node14',
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
@@ -56,7 +59,7 @@ const serverlessConfiguration: AWS = {
         migrate: true,
         seed: true,
         convertEmptyValues: true,
-        noStart: true, // Comenta esta línea si no tienes una instancia de DynamoDB en ejecución localmente.
+        noStart: true, //Comment this line if you don't have a DynamoDB instance running locally.
       },
       migration: {
         dir: 'src/dynamodb/offline/migrations',

@@ -1,7 +1,7 @@
 export const FilmsTable = {
   Type: 'AWS::DynamoDB::Table',
   Properties: {
-    TableName: 'FilmsTable',
+    TableName: "FilmsTable",
     AttributeDefinitions: [
       {
         AttributeName: 'id',

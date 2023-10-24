@@ -8,7 +8,9 @@ jspm_packages
 # esbuild directories
 .esbuild
 
+# env files
 .env
 
+# log files
 .error.log
 

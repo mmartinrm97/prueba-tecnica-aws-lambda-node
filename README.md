@@ -1,95 +1,131 @@
-# Serverless - AWS Node.js Typescript
+# Proyecto AWS Lambda Node Test
 
-This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).
+Este proyecto es una prueba técnica para la empresa Softtek. Proporciona una API basada en AWS Lambda, Serverless Framework y TypeScript para acceder a datos de películas de Star Wars.
 
-For detailed instructions, please refer to the [documentation](https://www.serverless.com/framework/docs/providers/aws/).
+## Requisitos
 
-## Installation/deployment instructions
+Asegúrate de tener las siguientes herramientas instaladas en tu sistema:
 
-Depending on your preferred package manager, follow the instructions below to deploy your project.
+- [Node.js](https://nodejs.org/): La versión recomendada es 14.15.0 o superior.
+- [Serverless Framework](https://www.serverless.com/): Puedes instalarlo globalmente con `npm install -g serverless`.
+- [Docker](https://www.docker.com/): Necesario para ejecutar DynamoDB localmente.
+- AWS CLI: Configura tu perfil de AWS con las credenciales necesarias para desplegar en AWS.
 
-> **Requirements**: NodeJS `lts/fermium (v.14.15.0)`. If you're using [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to ensure you're using the same Node version in local and in your lambda's runtime.
+## Configuración
 
-### Using NPM
+1. Clona este repositorio en tu máquina local:
 
-- Run `npm i` to install the project dependencies
-- Run `npx sls deploy` to deploy this stack to AWS
+   ```bash
+   git clone https://github.com/tu-usuario/aws-lambda-node-test.git
+   cd aws-lambda-node-test
+   ```
 
-### Using Yarn
+2. Instala las dependencias del proyecto:
 
-- Run `yarn` to install the project dependencies
-- Run `yarn sls deploy` to deploy this stack to AWS
+    - Usando npm:
 
-## Test your service
+        ```bash
+        npm install
+        ```
 
-This template contains a single lambda function triggered by an HTTP request made on the provisioned API Gateway REST API `/hello` route with `POST` method. The request body must be provided as `application/json`. The body structure is tested by API Gateway against `src/functions/hello/schema.ts` JSON-Schema definition: it must contain the `name` property.
+    - Usando yarn:
 
-- requesting any other path than `/hello` with any other method than `POST` will result in API Gateway returning a `403` HTTP error code
-- sending a `POST` request to `/hello` with a payload **not** containing a string property named `name` will result in API Gateway returning a `400` HTTP error code
-- sending a `POST` request to `/hello` with a payload containing a string property named `name` will result in API Gateway returning a `200` HTTP status code with a message saluting the provided name and the detailed event processed by the lambda
+        ```bash
+        yarn
+        ```
 
-> :warning: As is, this template, once deployed, opens a **public** endpoint within your AWS account resources. Anybody with the URL can actively execute the API Gateway endpoint and the corresponding lambda. You should protect this endpoint with the authentication method of your choice.
+    - Usando pnpm:
 
-### Locally
+        ```bash
+        pnpm install
+        ```
 
-In order to test the hello function locally, run the following command:
+3. Configura tus credenciales de AWS en tu sistema local:
 
-- `npx sls invoke local -f hello --path src/functions/hello/mock.json` if you're using NPM
-- `yarn sls invoke local -f hello --path src/functions/hello/mock.json` if you're using Yarn
+    Si aún no has configurado tus credenciales de AWS, puedes hacerlo con el comando aws configure.
 
-Check the [sls invoke local command documentation](https://www.serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/) for more information.
+4. Configura tu archivo serverless.ts:
 
-### Remotely
+    Asegúrate de configurar adecuadamente el archivo serverless.ts con tus preferencias de AWS, incluyendo el nombre de servicio, región, entorno, etc.
 
-Copy and replace your `url` - found in Serverless `deploy` command output - and `name` parameter in the following `curl` command in your terminal or in Postman to test your newly deployed application.
+## Uso
 
+### Ejecución Local
+
+Puedes probar las funciones de AWS Lambda localmente con el siguiente comando:
+
+```sh
+pnpm run serverless:dev
 ```
-curl --location --request POST 'https://myApiEndpoint/dev/hello' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "name": "Frederic"
-}'
+
+Esto ejecutará tu proyecto en un entorno local.
+
+### Despliegue en AWS
+
+Para desplegar el proyecto en AWS, puedes ejecutar el siguiente comando:
+
+```sh
+serverless deploy
 ```
 
-## Template features
+Esto desplegará las funciones en tu cuenta de AWS. Asegúrate de que tus credenciales de AWS estén configuradas adecuadamente en tu máquina.
 
-### Project structure
+## Estructura de Carpetas
 
-The project code base is mainly located within the `src` folder. This folder is divided in:
-
-- `functions` - containing code base and configuration for your lambda functions
-- `libs` - containing shared code base between your lambdas
+- src: Contiene el código fuente de la aplicación.
+- src/functions: Define las funciones Lambda.
+- src/resources: Contiene definiciones de recursos de AWS como tablas DynamoDB.
+- tests: Contiene pruebas unitarias para las funciones.
 
 ```
 .
 ├── src
-│   ├── functions               # Lambda configuration and source code folder
-│   │   ├── hello
-│   │   │   ├── handler.ts      # `Hello` lambda source code
-│   │   │   ├── index.ts        # `Hello` lambda Serverless configuration
-│   │   │   ├── mock.json       # `Hello` lambda input parameter, if any, for local invocation
-│   │   │   └── schema.ts       # `Hello` lambda input event JSON-Schema
-│   │   │
-│   │   └── index.ts            # Import/export of all lambda configurations
-│   │
-│   └── libs                    # Lambda shared code
-│       └── apiGateway.ts       # API Gateway specific helpers
-│       └── handlerResolver.ts  # Sharable library for resolving lambda handlers
-│       └── lambda.ts           # Lambda middleware
-│
+│   ├── api
+│   │   └── useApi.ts
+│   ├── config
+│   │   └── loggerConfig.ts
+│   ├── dynamodb
+│   │   ├── offline
+│   │   │   └── migrations
+│   │   │   │   └── films.ts
+│   │   ├── docker-compose.yml
+│   │   ├── Dockerfile
+│   │   └── useDynamoDB.ts
+│   ├── functions
+│   │   ├── films
+│   │   │   ├── createFilm
+│   │   │   │   ├── handler.ts
+│   │   │   │   └── index.ts
+│   │   │   ├── findFilmById
+│   │   │   │   ├── handler.ts
+│   │   │   │   └── index.ts
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   ├── interfaces
+│   │   ├── star-wars-es.ts
+│   │   └── star-wars.ts
+│   ├── libs
+│   │   ├── api-gateway.ts
+│   │   ├── handler-resolver.ts
+│   │   └── lambda.ts
+│   ├── resources
+│   │   └── tableResources.ts
+│   ├── tests
+│   │   ├── createFilm.test.ts
+│   │   └── getFilmDataById.test.ts
+│   └── utils
+│   │   ├── apiBaseURL.ts
+│   │   ├── translations.ts
+│   │   └── translationUtils.ts
+├── node_modules
+├── dist
 ├── package.json
-├── serverless.ts               # Serverless service file
-├── tsconfig.json               # Typescript compiler configuration
-├── tsconfig.paths.json         # Typescript paths
-└── webpack.config.js           # Webpack configuration
+├── serverless.ts
+├── tsconfig.json
+├── tsconfig.paths.json
+└── webpack.config.js
 ```
 
-### 3rd party libraries
+## Licencia
 
-- [json-schema-to-ts](https://github.com/ThomasAribart/json-schema-to-ts) - uses JSON-Schema definitions used by API Gateway for HTTP request validation to statically generate TypeScript types in your lambda's handler code base
-- [middy](https://github.com/middyjs/middy) - middleware engine for Node.Js lambda. This template uses [http-json-body-parser](https://github.com/middyjs/middy/tree/master/packages/http-json-body-parser) to convert API Gateway `event.body` property, originally passed as a stringified JSON, to its corresponding parsed object
-- [@serverless/typescript](https://github.com/serverless/typescript) - provides up-to-date TypeScript definitions for your `serverless.ts` service file
-
-### Advanced usage
-
-Any tsconfig.json can be used, but if you do, set the environment variable `TS_NODE_CONFIG` for building the application, eg `TS_NODE_CONFIG=./tsconfig.app.json npx serverless webpack`
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo LICENSE para obtener más detalles.

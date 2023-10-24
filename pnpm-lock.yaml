@@ -40,12 +40,21 @@ devDependencies:
   esbuild:
     specifier: ^0.14.54
     version: 0.14.54
+  inversify:
+    specifier: ^6.0.2
+    version: 6.0.2
+  inversify-binding-decorators:
+    specifier: ^4.0.0
+    version: 4.0.0
   jest:
     specifier: ^29.7.0
     version: 29.7.0(@types/node@14.18.63)(ts-node@10.9.1)
   json-schema-to-ts:
     specifier: ^1.6.5
     version: 1.6.5
+  reflect-metadata:
+    specifier: ^0.1.13
+    version: 0.1.13
   serverless:
     specifier: ^3.35.2
     version: 3.35.2
@@ -4363,6 +4372,14 @@ packages:
       wrap-ansi: 6.2.0
     dev: true
 
+  /inversify-binding-decorators@4.0.0:
+    resolution: {integrity: sha512-r8au/oH3vS7ttHj0RivAznwElySeRohLfg8lvOSzbrX6abf/8ik8ptk49XbzdShgrnalvl7CM6MjcskfM7MMqQ==}
+    dev: true
+
+  /inversify@6.0.2:
+    resolution: {integrity: sha512-i9m8j/7YIv4mDuYXUAcrpKPSaju/CIly9AHK5jvCBeoiM/2KEsuCQTTP+rzSWWpLYWRukdXFSl6ZTk2/uumbiA==}
+    dev: true
+
   /invert-kv@2.0.0:
     resolution: {integrity: sha512-wPVv/y/QQ/Uiirj/vh3oP+1Ww+AWehmi1g5fFWGPF6IpCBCDVrhgHRMvrLfdYcwDh3QJbGXDW4JAuzxElLSqKA==}
     engines: {node: '>=4'}
@@ -6094,6 +6111,10 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
+    dev: true
+
+  /reflect-metadata@0.1.13:
+    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
     dev: true
 
   /reftools@0.0.20:

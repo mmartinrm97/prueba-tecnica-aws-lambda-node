@@ -16,7 +16,7 @@ Asegúrate de tener las siguientes herramientas instaladas en tu sistema:
 1. Clona este repositorio en tu máquina local:
 
    ```bash
-   git clone https://github.com/tu-usuario/aws-lambda-node-test.git
+   git clone https://github.com/mmartinrm97/prueba-tecnica-aws-lambda-node.git
    cd aws-lambda-node-test
    ```
 
